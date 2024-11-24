@@ -1,42 +1,33 @@
 class plantsData {
-    private String name;
-    int water;
-    int labor;
-    int rad;
-    public plantsData(String name, int water, int labor, int rad) {
-        this.name = name;
-        this.water = water;
-        this.labor = labor;
-        this.rad = rad;
+    int area;
+    double laborCost;
+    int availableIrrigation;
+    public plantsData(int area, double laborCost, int vailableIrrigation) {
+        this.area = area;
+        this.laborCost = laborCost;
+        this.availableIrrigation = vailableIrrigation;
     }
-     public String getName() {
-        return name;
+     public int getArea() {
+        return area;
     }
 
-    public int getWater() {
-        return water;
+    public double getLaborCost() {
+        return laborCost;
     }
 
-    public int getLabor() {
-        return slabor;
+    public int getAvailableIrrigation() {
+        return availableIrrigation;
     }
 
-    public int getRad() {
-        return rad;
-}
-public void setName(String name) {
-        this.name = name;
+public void setArea(int area) {
+        this.area = area;
     }
 
-    public void setWater(int water) {
-        this.water = water;
+    public void setLaborCost(int laborCost) {
+        this.laborCost = laborCost;
     }
 
-    public void setLabor(int labor) {
-        this.labor = labor;
-    }
-
-    public void setRad(int rad) {
-        this.rad = rad;
+    public void setAvailableIrrigation(int availableIrrigation) {
+        this.availableIrrigation = availableIrrigation;
     }
 }
