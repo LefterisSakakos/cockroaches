@@ -4,7 +4,7 @@ public class plantsDB {
         "Apples", "Oranges", "Peaches", "Pears", "Grapes",
         "Kiwis", "Olives", "Figs", "Pomegranates", "Lemons"
     };
-    //Plants Fixed Data
+    //Plants Ficed Data[Labor Hours, Spacing, Irregation]
     public static final double[][] plantsFixedData = {
         {50, 4, 50},  // Apples
         {60, 5, 70},  // Oranges
