@@ -1,13 +1,17 @@
-class plantsData {
-    int area;
-    double laborCost;
-    int availableIrrigation;
-    public plantsData(int area, double laborCost, int vailableIrrigation) {
+public class PlantsData {
+    private int area;
+    private double laborCost;
+    private int availableIrrigation;
+
+    // Constructor
+    public PlantsData(int area, double laborCost, int availableIrrigation) {
         this.area = area;
         this.laborCost = laborCost;
-        this.availableIrrigation = vailableIrrigation;
+        this.availableIrrigation = availableIrrigation;
     }
-     public int getArea() {
+
+    // Getters
+    public int getArea() {
         return area;
     }
 
@@ -19,11 +23,12 @@ class plantsData {
         return availableIrrigation;
     }
 
-public void setArea(int area) {
+    // Setters
+    public void setArea(int area) {
         this.area = area;
     }
 
-    public void setLaborCost(int laborCost) {
+    public void setLaborCost(double laborCost) { // Εδώ αλλάξαμε σε double
         this.laborCost = laborCost;
     }
 
