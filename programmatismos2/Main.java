@@ -1,5 +1,5 @@
 
-
+import org.apache.commons.math3.optimization.PointValuePair;
 import java.util.Scanner;
 
 public class Main {
@@ -14,12 +14,11 @@ public class Main {
 
         System.out.println("Enter the available water for irrigation (in liters): ");
         int availableWater = scanner.nextInt();
-
+        
         if (area <= 0 || laborCost <= 0 || availableWater <= 0) {
             System.out.println("Please enter valid positive values!");
             return;
         }
-
         PlantsData plants = new PlantsData(area, laborCost, availableWater);
 
         OptimizationEngine engine = new OptimizationEngine(plants);

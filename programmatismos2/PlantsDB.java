@@ -1,4 +1,5 @@
-public class plantsDB {
+
+public class PlantsDB {
     //Plants Names
     public static final String[] plantsNames = {
         "Apples", "Oranges", "Peaches", "Pears", "Grapes",

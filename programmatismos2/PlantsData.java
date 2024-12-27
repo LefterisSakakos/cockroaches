@@ -1,3 +1,4 @@
+
 public class PlantsData {
     private int area;
     private double laborCost;
