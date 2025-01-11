@@ -42,98 +42,55 @@ cockroaches/
 ├── ReportGenerator.java    # Generates detailed output reports  
 └── README.md               # Documentation of the project  
 
-Usage
-When you run the program, you will be prompted to input data about the plants, such as:
 
-Name of the plant
-Water required per unit
-Land required per unit (in acres)
-Labor hours required per unit
-Climate type (options: compatible, dry, wet)
-Profit per unit
-The program will then compute the optimal quantity of each plant to cultivate based on the available resources and constraints.
+## Key Classes and Functions
+1. Main
+- Handles user input and orchestrates the execution of the optimization and reporting modules.
+2. OptimizationEngine
+- Core logic for calculating the optimal planting configuration using the SimplexOptimizer from Apache Commons Math3.
+3. PlantsData
+- Stores field-related information like area, labor cost, and water availability.
+4. PlantsDB
+- Stores fixed data for plant types, including spacing, labor hours, water requirements, costs, and revenues.
+5. ReportGenerator
+- Compiles the results of the optimization and outputs a detailed summary, including profit and usage metrics.
 
 
+## Running Example:
+#### Example Input:
+Enter the area of the field (in square meters): 5000  
+Enter the labor cost per hour: 10.5  
+Enter the available water for irrigation (in liters): 25000  
 
-Running Example:
-Καλησπέρα 
-Ποία είναι η έκταση του χωραφιού σε τετραγωνικά μέτρα;
-500
-Ποίο είναι το κόστος της ώρας εργασίας σε ευρώ;
-3,5
-Πόσα λίτρα διαθέσιμο νερό υπάρχει ;
-400000
+#### Example Output
 
+Optimal Planting Configuration:  
+Apples: 200  
+  Area: 900.0 m²  
+  Labor Hours: 444.0  
+  Water Required: 28000.0 liters  
+  Cost: 1800.0  
+  Revenue: 9100.0  
 [...]
 
-Υπολογισμός ιδανικού συνδιασμού.....
-Φυτό 1:σταφύλι , ποσότητα : 8 , κέρδος 240.00
-Φυτό 2:Ελιές , ποσότητα : 5 < κέρδος 170.00
-
-Repository Structure
-FarmOptimizer.java: The main class of the program. It handles user input, initializes constraints, and triggers the optimization process.
-Plant.java: Represents a plant with attributes such as name, water requirements, land usage, labor hours, and profit per unit.
-Constraint.java: Represents a resource constraint (e.g., water, land, labor) and checks whether a given plant quantity satisfies the constraint.
-OptimizationEngine.java: Implements the logic for finding the optimal cultivation plan based on the given plants and constraints.
-
-Example Code
-Plant.java
-This class models a plant:
-class Plant {
-    String name;
-    double waterRequired;
-    double landRequired;
-    double laborHours;
-    String climateType;
-    double profitPerUnit;
-
-    public Plant(String name, double waterRequired, double landRequired, double laborHours, String climateType, double profitPerUnit) {
-        this.name = name;
-        this.waterRequired = waterRequired;
-        this.landRequired = landRequired;
-        this.laborHours = laborHours;
-        this.climateType = climateType;
-        this.profitPerUnit = profitPerUnit;
-    }
-
-    public double calculateProfit(int quantity) {
-        return profitPerUnit * quantity;
-    }
-}
-
-Constraint.java
-This class models a resource constraint:
-class Constraint {
-    String type;
-    double maxLimit;
-
-    public Constraint(String type, double maxLimit) {
-        this.type = type;
-        this.maxLimit = maxLimit;
-    }
-
-    public boolean isSatisfied(Plant plant, double quantity) {
-        switch (type) {
-            case "water":
-                return plant.waterRequired * quantity <= maxLimit;
-            case "land":
-                return plant.landRequired * quantity <= maxLimit;
-            case "labor":
-                return plant.laborHours * quantity <= maxLimit;
-            case "climate":
-                return plant.climateType.equalsIgnoreCase("compatible");
-            default:
-                return true;
-        }
-    }
-}
+Summary:  
+Total Area Used: 4500.0 m²  
+Total Labor Hours: 200.0  
+Total Water Required: 24000.0 liters  
+Total Water Cost: 4.8  
+Total Labor Cost: 2100.0  
+Total Cost: 3904.8  
+Total Revenue: 5000.0  
+Total Profit: 1095.2  
 
 
-License
+
+
+## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Contributing
-Dear user Thank you for your interest in our program! We’re thrilled that you’ve taken the time to explore Cockroaches and hope it helps you optimize your farming processes effectively. Your feedback and suggestions are always welcome, as they help us improve and grow. We appreciate your support and hope you enjoy using our program!"
+## Acknowledgments & Contributing
+Dear user thank you for your interest in our program! We’re thrilled that you’ve taken the time to explore Cockroaches and hope it helps you optimize your farming processes effectively. Your feedback and suggestions are always welcome, as they help us improve and grow. We appreciate your support and hope you enjoy using our program!"
 If you'd like to contribute, feel free to submit a pull request or open an issue.
 
 
