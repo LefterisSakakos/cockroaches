@@ -1,18 +1,18 @@
 
 public class PlantsData {
-    private int area;
+    private double area;
     private double laborCost;
-    private int availableIrrigation;
+    private double availableIrrigation;
 
     // Constructor
-    public PlantsData(int area, double laborCost, int availableIrrigation) {
+    public PlantsData(double area, double laborCost, double availableIrrigation) {
         this.area = area;
         this.laborCost = laborCost;
         this.availableIrrigation = availableIrrigation;
     }
 
     // Getters
-    public int getArea() {
+    public double getArea() {
         return area;
     }
 
@@ -20,12 +20,12 @@ public class PlantsData {
         return laborCost;
     }
 
-    public int getAvailableIrrigation() {
+    public double getAvailableIrrigation() {
         return availableIrrigation;
     }
 
     // Setters
-    public void setArea(int area) {
+    public void setArea(double area) {
         this.area = area;
     }
 
@@ -33,7 +33,7 @@ public class PlantsData {
         this.laborCost = laborCost;
     }
 
-    public void setAvailableIrrigation(int availableIrrigation) {
+    public void setAvailableIrrigation(double availableIrrigation) {
         this.availableIrrigation = availableIrrigation;
     }
 }

@@ -1,55 +1,68 @@
+import java.util.Map;
 
 public class ReportGenerator {
-    PlantsDB plantsDB = new PlantsDB();
-    public  void generateReport(PointValuePair result, PlantsData plants) {
-        double[] optimalSolution = result.getPoint();
+    private String[] plantNames;
+    private double[][] plantData;
+
+    public ReportGenerator(String[] plantNames, double[][] plantData) {
+        this.plantNames = plantNames;
+        this.plantData = plantData;
+    }
+
+    public void generateReport(Map<String, Integer> solution, Map<String, Double> constraints) {
         double totalLaborHours = 0;
         double totalWaterRequired = 0;
-        double totalCost = 0;
-        double totalRevenue = 0;
         double totalAreaUsed = 0;
-        double totalWaterCost = 0;
-        double totalLaborCost = 0;
 
         System.out.println("Optimal Planting Configuration:");
 
-        for (int i = 0; i < plantsDB.getNumberOfPlants(); i++) {
-            double numPlants = optimalSolution[i];
+        for (Map.Entry<String, Integer> entry : solution.entrySet()) {
+            String plantName = entry.getKey();
+            int quantity = entry.getValue();
+            int plantIndex = getPlantIndex(plantName);
 
-            if (numPlants > 0) {
-                double areaUsed = numPlants * plantsDB.plantsFixedData[i][0];
-                double laborRequired = numPlants * plantsDB.plantsFixedData[i][1];
-                double waterRequired = numPlants * plantsDB.plantsFixedData[i][3];
-                double cost = numPlants * plantsDB.plantsFixedData[i][4];
-                double revenue = numPlants * plantsDB.plantsFixedData[i][2];
-                double waterCost = 0.0002 * waterRequired;
-                double laborCost = plants.getLaborCost() * laborRequired;
+            if (plantIndex != -1 && quantity > 0) {
+                double waterRequired = plantData[plantIndex][0] * quantity;
+                double landRequired = plantData[plantIndex][1] * quantity;
+                double laborRequired = plantData[plantIndex][2] * quantity;
 
-                totalAreaUsed += areaUsed;
-                totalLaborHours += laborRequired;
                 totalWaterRequired += waterRequired;
-                totalCost += cost;
-                totalRevenue += revenue;
-                totalWaterCost += waterCost;
-                totalLaborCost += laborCost;
+                totalAreaUsed += landRequired;
+                totalLaborHours += laborRequired;
 
-                System.out.println(plantsDB.plantsNames[i] + ": " + (int) numPlants);
-                System.out.println("  Area: " + areaUsed + " m²");
-                System.out.println("  Labor Hours: " + laborRequired);
-                System.out.println("  Water Required: " + waterRequired + " liters");
-                System.out.println("  Cost: " + cost);
-                System.out.println("  Revenue: " + revenue);
+                System.out.printf("%-15s: Quantity: %d, Area Used: %.2f, Water Required: %.2f, Labor Hours: %.2f\n",
+                        plantName, quantity, landRequired, waterRequired, laborRequired);
             }
         }
 
         System.out.println("\nSummary:");
-        System.out.println("Total Area Used: " + totalAreaUsed + " m²");
-        System.out.println("Total Labor Hours: " + totalLaborHours);
-        System.out.println("Total Water Required: " + totalWaterRequired + " liters");
-        System.out.println("Total Water Cost: " +  totalWaterCost   );
-        System.out.println("Total Labor Cost: " + totalLaborCost );
-        System.out.println("Total Cost: " + totalCost + totalWaterCost +  totalLaborCost );
-        System.out.println("Total Revenue: " + totalRevenue);
-        System.out.println("Total Profit: " + (totalRevenue - totalCost - totalWaterCost - totalLaborCost));
+        System.out.printf("Total Area Used: %.2f m²\n", totalAreaUsed);
+        System.out.printf("Total Water Required: %.2f liters\n", totalWaterRequired);
+        System.out.printf("Total Labor Hours: %.2f hours\n", totalLaborHours);
+
+        System.out.println("Constraints:");
+        System.out.printf("Available Land: %.2f m²\n", constraints.get("land"));
+        System.out.printf("Available Water: %.2f liters\n", constraints.get("water"));
+        System.out.printf("Available Labor: %.2f hours\n", constraints.get("labor"));
+
+        if (totalAreaUsed > constraints.get("land")) {
+            System.out.println("Warning: Exceeded land constraint!");
+        }
+        if (totalWaterRequired > constraints.get("water")) {
+            System.out.println("Warning: Exceeded water constraint!");
+        }
+        if (totalLaborHours > constraints.get("labor")) {
+            System.out.println("Warning: Exceeded labor constraint!");
+        }
+    }
+
+    private int getPlantIndex(String plantName) {
+        for (int i = 0; i < plantNames.length; i++) {
+            if (plantNames[i].equals(plantName)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
+
