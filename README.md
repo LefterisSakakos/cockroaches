@@ -84,6 +84,10 @@ Total Revenue: 5000.0
 Total Profit: 1095.2  
 
 
+## UML Diagram   
+Below is the UML diagram of the project's architecture:  
+![UML Diagram](./uml-diagram.png)
+
 
 
 ## License
