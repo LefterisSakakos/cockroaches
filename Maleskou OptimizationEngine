@@ -1,0 +1,112 @@
+
+import org.apache.commons.math3.optim.*;
+import org.apache.commons.math3.optim.linear.*;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math3.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class OptimizationEngine {
+    private PlantsData plants;
+    PlantsDB plantsDB = new PlantsDB();
+
+    public OptimizationEngine(PlantsData plants) {
+        this.plants = plants;
+    }
+
+    public void optimizeAndDisplay() {
+        // Συνάρτηση στόχου
+        double[] profitCoefficients = getProfitCoefficients();
+        if (profitCoefficients == null || profitCoefficients.length == 0
+                || Arrays.stream(profitCoefficients).allMatch(coeff -> coeff <= 0)) {
+            throw new RuntimeException("Invalid profit coefficients for optimization.");
+        }
+
+        LinearObjectiveFunction function = new LinearObjectiveFunction(profitCoefficients, 0);
+
+        // Περιορισμοί
+        List<LinearConstraint> constraints = new ArrayList<>();
+        constraints.add(new LinearConstraint(getAreaConstraints(), Relationship.LEQ, plants.getArea()));
+        constraints.add(new LinearConstraint(getWaterConstraints(), Relationship.LEQ, plants.getAvailableIrrigation()));
+
+        // Επίλυση
+        SimplexOptimizer optimizer = new SimplexOptimizer(1e-6, 1e-10);
+        PointValuePair solution = optimizer.optimize(
+                new MaxIter(1000),
+                function,
+                new LinearConstraintSet(constraints),
+                GoalType.MAXIMIZE,
+                new NonNegativeConstraint(true));
+
+        // Επεξεργασία αποτελεσμάτων
+        double[] plantQuantities = solution.getPoint();
+        double totalProfit = solution.getValue();
+        double totalAreaUsed = calculateTotalArea(plantQuantities);
+        double[] areasPerPlant = calculateAreasPerPlant(plantQuantities);
+
+        // Εμφάνιση αποτελεσμάτων
+        System.out.println("Βέλτιστος Συνδυασμός Φυτών:");
+        System.out.printf("%-15s %-15s %-15s %-15s\n", "Φυτό", "Ποσότητα", "Χρησιμοποιούμενη Έκταση", "Κέρδος");
+        for (int i = 0; i < plantsDB.getNumberOfPlants(); i++) {
+            System.out.printf("%-15s %-15.2f %-15.2f %-15.2f\n",
+                    PlantsDB.plantsNames[i], plantQuantities[i], areasPerPlant[i],
+                    plantQuantities[i] * profitCoefficients[i]);
+        }
+        System.out.println("\nΣυνολικό Κέρδος: " + totalProfit);
+        System.out.println("Συνολική Έκταση που Χρησιμοποιήθηκε: " + totalAreaUsed);
+    }
+
+    private double calculateTotalArea(double[] plantQuantities) {
+        double[] areaConstraints = getAreaConstraints();
+        double totalArea = 0;
+        for (int i = 0; i < plantQuantities.length; i++) {
+            totalArea += plantQuantities[i] * areaConstraints[i];
+        }
+        return totalArea;
+    }
+
+    private double[] calculateAreasPerPlant(double[] plantQuantities) {
+        double[] areaConstraints = getAreaConstraints();
+        double[] areasPerPlant = new double[plantQuantities.length];
+        for (int i = 0; i < plantQuantities.length; i++) {
+            areasPerPlant[i] = plantQuantities[i] * areaConstraints[i];
+        }
+        return areasPerPlant;
+    }
+
+    private double[] getProfitCoefficients() {
+        double[] profits = new double[plantsDB.getNumberOfPlants()];
+        for (int i = 0; i < plantsDB.getNumberOfPlants(); i++) {
+            double Ri = plantsDB.plantsFixedData[i][3];
+            double Ci = plantsDB.plantsFixedData[i][2];
+            double Cl = plants.getLaborCost();
+            double Hi = plantsDB.plantsFixedData[i][4];
+            double Wa = plantsDB.plantsFixedData[i][1];
+            double Cw = 0.0002;
+
+            profits[i] = Ri - Ci - (Cl * Hi) - (Wa * Cw);
+            if (profits[i] < 0) {
+                profits[i] = 0;
+            }
+        }
+        return profits;
+    }
+
+    private double[] getAreaConstraints() {
+        double[] areaConstraints = new double[plantsDB.getNumberOfPlants()];
+        for (int i = 0; i < plantsDB.getNumberOfPlants(); i++) {
+            areaConstraints[i] = plantsDB.plantsFixedData[i][0];
+        }
+        return areaConstraints;
+    }
+
+    private double[] getWaterConstraints() {
+        double[] waterConstraints = new double[plantsDB.getNumberOfPlants()];
+        for (int i = 0; i < plantsDB.getNumberOfPlants(); i++) {
+            waterConstraints[i] = plantsDB.plantsFixedData[i][1];
+        }
+        return waterConstraints;
+    }
+}
