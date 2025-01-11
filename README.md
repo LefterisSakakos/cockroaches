@@ -22,15 +22,21 @@ Welcome to **Cockroaches**, a Java-based program designed to help farmers optimi
 ## Installation Instructions
 #### Prerequisites
 1. Install Java JDK 8+.
-2. Add the Apache Commons Math3 library to your project.
-3. Clone or download the repository:
+2. Install Maven from (https://maven.apache.org/install.html)  
+3. Add the Apache Commons Math3 library to your project.
+4. Clone or download the repository:
    ```bash
    git clone https://github.com/username/cockroaches.git
 
-4. Open the files in your favorite Java IDE (e.g., IntelliJ IDEA, Eclipse).
-5. Navigate to the project directory and compile the program:  
-javac Main.java  
- 6. Run the programm using the code bellow....
+5. Open the files in your favorite Java IDE (e.g., IntelliJ IDEA, Eclipse).
+6. Navigate to the project directory and clean-build the project:  
+   mvn clean install    
+ 7. Run the programm using the code bellow....
+    -  mvn compile
+    -  mvn dependency:copy-dependencies
+    -  mvn package
+    -  mvn exec:java -Dexec.mainClass="com.example.Main"  
+
 
 ## Project Structure   
 #### Below is an overview of the repository structure and the role of each file:
