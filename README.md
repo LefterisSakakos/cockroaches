@@ -28,7 +28,7 @@ Welcome to **Cockroaches**, a Java-based program designed to help farmers optimi
    git clone https://github.com/username/cockroaches.git
 
 4. Open the files in your favorite Java IDE (e.g., IntelliJ IDEA, Eclipse).
-5. Navigate to the project directory and compile the program:
+5. Navigate to the project directory and compile the program:  
 javac Main.java  
  6. Run the programm using the code bellow....
 
@@ -90,7 +90,7 @@ Total Profit: 1095.2
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Acknowledgments & Contributing
-Dear user thank you for your interest in our program! We’re thrilled that you’ve taken the time to explore Cockroaches and hope it helps you optimize your farming processes effectively. Your feedback and suggestions are always welcome, as they help us improve and grow. We appreciate your support and hope you enjoy using our program!"
+Dear user thank you for your interest in our program! We’re thrilled that you’ve taken the time to explore Cockroaches and hope it helps you optimize your farming processes effectively. Your feedback and suggestions are always welcome, as they help us improve and grow. We appreciate your support and hope you enjoy using our program!"  
 If you'd like to contribute, feel free to submit a pull request or open an issue.
 
 
